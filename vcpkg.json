@@ -1,0 +1,6 @@
+{
+  "name": "binary-similarity-engine",
+  "version-string": "0.1.0",
+  "description": "High-performance malware similarity and binary tamper analysis engine",
+  "dependencies": []
+}

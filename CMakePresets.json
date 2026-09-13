@@ -1,0 +1,120 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug - Clang 23",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "clang++-23"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release - Clang 23",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_COMPILER": "clang++-23"
+      }
+    },
+    {
+      "name": "relwithdebinfo",
+      "displayName": "RelWithDebInfo - Clang 23",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_CXX_COMPILER": "clang++-23"
+      }
+    },
+    {
+      "name": "asan",
+      "displayName": "Debug + AddressSanitizer",
+      "inherits": "debug",
+      "cacheVariables": {
+        "BSIM_ENABLE_ASAN": "ON"
+      }
+    },
+    {
+      "name": "ubsan",
+      "displayName": "Debug + UndefinedBehaviorSanitizer",
+      "inherits": "debug",
+      "cacheVariables": {
+        "BSIM_ENABLE_UBSAN": "ON"
+      }
+    },
+    {
+      "name": "tidy",
+      "displayName": "Debug + clang-tidy",
+      "inherits": "debug",
+      "cacheVariables": {
+        "BSIM_ENABLE_CLANG_TIDY": "ON"
+      }
+    },
+    {
+      "name": "debug-tests",
+      "displayName": "Debug + Tests",
+      "inherits": "debug",
+      "cacheVariables": {
+        "BSIM_BUILD_TESTS": "ON"
+      }
+    },
+    {
+      "name": "benchmark",
+      "displayName": "Release + Benchmarks",
+      "inherits": "release",
+      "cacheVariables": {
+        "BSIM_BUILD_BENCHMARKS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug"
+    },
+    {
+      "name": "release",
+      "configurePreset": "release"
+    },
+    {
+      "name": "relwithdebinfo",
+      "configurePreset": "relwithdebinfo"
+    },
+    {
+      "name": "asan",
+      "configurePreset": "asan"
+    },
+    {
+      "name": "ubsan",
+      "configurePreset": "ubsan"
+    },
+    {
+      "name": "tidy",
+      "configurePreset": "tidy"
+    },
+    {
+      "name": "debug-tests",
+      "configurePreset": "debug-tests"
+    },
+    {
+      "name": "benchmark",
+      "configurePreset": "benchmark"
+    }
+  ]
+}
