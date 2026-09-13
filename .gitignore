@@ -90,9 +90,6 @@ Thumbs.db
 
 # ------------------------------------------------------------
 # Project data
-#
-# Keep README files tracked, but do not commit large binary
-# corpora or malware samples.
 # ------------------------------------------------------------
 data/corpus/
 data/samples/
