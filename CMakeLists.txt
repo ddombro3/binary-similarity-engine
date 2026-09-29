@@ -35,6 +35,19 @@ target_compile_features(
         cxx_std_23
 )
 
+target_compile_options(
+    bsim_project_options
+    INTERFACE
+        -stdlib=libc++
+)
+
+target_link_options(
+    bsim_project_options
+    INTERFACE
+        -stdlib=libc++
+)
+
+
 bsim_set_project_warnings(bsim_project_warnings)
 bsim_enable_sanitizers(bsim_project_options)
 
