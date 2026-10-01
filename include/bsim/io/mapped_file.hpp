@@ -11,26 +11,26 @@ namespace bsim {
 class MappedFile {
 public:
     static std::expected<MappedFile, std::error_code>
-    open(const std::filesystem::path& path);
+    open(const std::filesystem::path& path); //open our main function for actually getting the file
 
-    ~MappedFile();
+    ~MappedFile(); //destructor
 
-    MappedFile(const MappedFile&) = delete;
-    MappedFile& operator=(const MappedFile&) = delete;
+    MappedFile(const MappedFile&) = delete; //copy constructor big no
+    MappedFile& operator=(const MappedFile&) = delete; //copy assignment op
 
-    MappedFile(MappedFile&& other) noexcept;
-    MappedFile& operator=(MappedFile&& other) noexcept;
+    MappedFile(MappedFile&& other) noexcept; //move con
+    MappedFile& operator=(MappedFile&& other) noexcept; //enable move op
 
-    [[nodiscard]] std::span<const std::byte> bytes() const noexcept;
+    [[nodiscard]] std::span<const std::byte> bytes() const noexcept; //our functions, nodiscard dont ignore return val, const dont modify obj, noexcept func wont throw expection
     [[nodiscard]] std::size_t size() const noexcept;
     [[nodiscard]] bool empty() const noexcept;
 
 private:
-    MappedFile(int fd, std::byte* data, std::size_t size) noexcept;
+    MappedFile(int fd, std::byte* data, std::size_t size) noexcept; //constrcutor
 
-    int fd_{-1};
-    std::byte* data_{nullptr};
-    std::size_t size_{0};
+    int fd_{-1};                // Open file descriptor; -1 means no valid file is open, fd is int OS gives file to label it
+    std::byte* data_{nullptr};  // Pointer to the first byte of the memory-mapped file
+    std::size_t size_{0};       // Size of the mapped file/region in byte
 };
 
 } // namespace bsim
