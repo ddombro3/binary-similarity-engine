@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake ninja-build clang-23 clang-tidy-23
+
+      - name: Configure CMake
+        run: cmake --preset debug-tests
+
+      - name: Build
+        run: cmake --build --preset debug-tests
+
+      - name: Run tests
+        run: ctest --test-dir build/debug-tests --output-on-failure

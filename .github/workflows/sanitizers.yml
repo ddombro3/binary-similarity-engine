@@ -1,0 +1,27 @@
+name: Sanitizers
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  asan-ubsan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake ninja-build clang-23
+
+      - name: Configure ASan build
+        run: cmake --preset asan
+
+      - name: Build ASan
+        run: cmake --build --preset asan
+
+      - name: Run ASan tests
+        run: ctest --test-dir build/asan --output-on-failure
