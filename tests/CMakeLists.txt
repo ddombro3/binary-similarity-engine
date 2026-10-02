@@ -13,6 +13,11 @@ add_executable(
     unit/test_byte_histogram.cpp
 )
 
+add_executable(
+    bsim_test_strings
+    unit/test_strings.cpp
+)
+
 target_link_libraries(
     bsim_test_mapped_file
     PRIVATE
@@ -37,6 +42,14 @@ target_link_libraries(
         bsim_project_warnings
 )
 
+target_link_libraries(
+    bsim_test_strings
+    PRIVATE
+        bsim::bsim
+        bsim_project_options
+        bsim_project_warnings
+)
+
 target_compile_features(
     bsim_test_mapped_file
     PRIVATE
@@ -51,6 +64,12 @@ target_compile_features(
 
 target_compile_features(
     bsim_test_byte_histogram
+    PRIVATE
+        cxx_std_23
+)
+
+target_compile_features(
+    bsim_test_strings
     PRIVATE
         cxx_std_23
 )
@@ -68,4 +87,9 @@ add_test(
 add_test(
     NAME byte_histogram
     COMMAND bsim_test_byte_histogram
+)
+
+add_test(
+    NAME strings
+    COMMAND bsim_test_strings
 )

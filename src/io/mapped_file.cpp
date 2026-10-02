@@ -40,7 +40,7 @@ MappedFile::open(const std::filesystem::path& path) {
     }
 
     void* const mapping =
-        ::mmap(nullptr, size, PROT_READ, MAP_PRIVATE, fd, 0); //nullptr bc linux chooses address for me
+        ::mmap(nullptr, size, PROT_READ, MAP_PRIVATE, fd, 0); //nullptr bc linux chooses address for me, void* return type then we later cast to bytes
 
     if (mapping == MAP_FAILED) {
         const std::error_code error{errno, std::generic_category()};
