@@ -6,9 +6,8 @@
 
 namespace bsim {
 
-double calculate_entropy(
-    std::span<const std::byte> bytes
-) noexcept {
+double calculate_entropy(std::span<const std::byte> bytes) noexcept {
+    
     if (bytes.empty()) {
         return 0.0;
     }
@@ -29,8 +28,7 @@ double calculate_entropy(
             continue;
         }
 
-        const double probability =
-            static_cast<double>(frequency) / size;
+        const double probability = static_cast<double>(frequency) / size;
 
         entropy -= probability * std::log2(probability);
     }
