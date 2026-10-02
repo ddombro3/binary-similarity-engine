@@ -18,6 +18,16 @@ add_executable(
     unit/test_strings.cpp
 )
 
+add_executable(
+    bsim_test_binary_format
+    unit/test_binary_format.cpp
+)
+
+add_executable(
+    bsim_test_elf_parser
+    unit/test_elf_parser.cpp
+)
+
 target_link_libraries(
     bsim_test_mapped_file
     PRIVATE
@@ -50,6 +60,22 @@ target_link_libraries(
         bsim_project_warnings
 )
 
+target_link_libraries(
+    bsim_test_binary_format
+    PRIVATE
+        bsim::bsim
+        bsim_project_options
+        bsim_project_warnings
+)
+
+target_link_libraries(
+    bsim_test_elf_parser
+    PRIVATE
+        bsim::bsim
+        bsim_project_options
+        bsim_project_warnings
+)
+
 target_compile_features(
     bsim_test_mapped_file
     PRIVATE
@@ -70,6 +96,18 @@ target_compile_features(
 
 target_compile_features(
     bsim_test_strings
+    PRIVATE
+        cxx_std_23
+)
+
+target_compile_features(
+    bsim_test_binary_format
+    PRIVATE
+        cxx_std_23
+)
+
+target_compile_features(
+    bsim_test_elf_parser
     PRIVATE
         cxx_std_23
 )
@@ -92,4 +130,14 @@ add_test(
 add_test(
     NAME strings
     COMMAND bsim_test_strings
+)
+
+add_test(
+    NAME binary_format
+    COMMAND bsim_test_binary_format
+)
+
+add_test(
+    NAME elf_parser
+    COMMAND bsim_test_elf_parser
 )
