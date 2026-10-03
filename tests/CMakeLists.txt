@@ -43,6 +43,11 @@ add_executable(
     unit/test_similarity.cpp
 )
 
+add_executable(
+    bsim_test_ngram
+    unit/test_ngram.cpp
+)
+
 target_link_libraries(
     bsim_test_mapped_file
     PRIVATE
@@ -115,6 +120,14 @@ target_link_libraries(
         bsim_project_warnings
 )
 
+target_link_libraries(
+    bsim_test_ngram
+    PRIVATE
+        bsim::bsim
+        bsim_project_options
+        bsim_project_warnings
+)
+
 target_compile_features(
     bsim_test_mapped_file
     PRIVATE
@@ -165,6 +178,12 @@ target_compile_features(
 
 target_compile_features(
     bsim_test_similarity
+    PRIVATE
+        cxx_std_23
+)
+
+target_compile_features(
+    bsim_test_ngram
     PRIVATE
         cxx_std_23
 )
@@ -212,4 +231,9 @@ add_test(
 add_test(
     NAME similarity
     COMMAND bsim_test_similarity
+)
+
+add_test(
+    NAME ngram
+    COMMAND bsim_test_ngram
 )

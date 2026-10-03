@@ -16,7 +16,7 @@ public:
     ~MappedFile(); //destructor
 
     MappedFile(const MappedFile&) = delete; //copy constructor big no
-    MappedFile& operator=(const MappedFile&) = delete; //copy assignment op
+    MappedFile& operator=(const MappedFile&) = delete; //copy assignment op delete
 
     MappedFile(MappedFile&& other) noexcept; //move con
     MappedFile& operator=(MappedFile&& other) noexcept; //enable move op
