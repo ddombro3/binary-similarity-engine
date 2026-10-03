@@ -1,6 +1,8 @@
 #include <bsim/similarity/similarity_engine.hpp>
 
 #include <cmath>
+#include <unordered_set>
+
 
 namespace bsim {
 
@@ -20,6 +22,27 @@ double cosine_similarity(const std::array<double, 256>& lhs, const std::array<do
     }
 
     return dot_product / (std::sqrt(lhs_magnitude) * std::sqrt(rhs_magnitude));
+}
+
+double jaccard_similarity(std::span<const NGram> lhs, std::span<const NGram> rhs) {
+    if (lhs.empty() || rhs.empty()) {
+        return 0.0;
+    }
+
+    const std::unordered_set<NGram> lhs_set{lhs.begin(), lhs.end()};
+    const std::unordered_set<NGram> rhs_set{rhs.begin(), rhs.end()};
+
+    std::size_t intersection_count = 0;
+
+    for (const auto ngram : lhs_set) {
+        if (rhs_set.contains(ngram)) {
+            ++intersection_count;
+        }
+    }
+
+    const std::size_t union_count = lhs_set.size() + rhs_set.size() - intersection_count;
+
+    return static_cast<double>(intersection_count) / static_cast<double>(union_count);
 }
 
 } // namespace bsim
