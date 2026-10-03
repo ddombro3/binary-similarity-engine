@@ -38,6 +38,11 @@ add_executable(
     integration/test_analysis_pipeline.cpp
 )
 
+add_executable(
+    bsim_test_similarity
+    unit/test_similarity.cpp
+)
+
 target_link_libraries(
     bsim_test_mapped_file
     PRIVATE
@@ -102,6 +107,14 @@ target_link_libraries(
         bsim_project_warnings
 )
 
+target_link_libraries(
+    bsim_test_similarity
+    PRIVATE
+        bsim::bsim
+        bsim_project_options
+        bsim_project_warnings
+)
+
 target_compile_features(
     bsim_test_mapped_file
     PRIVATE
@@ -146,6 +159,12 @@ target_compile_features(
 
 target_compile_features(
     bsim_test_analysis_pipeline
+    PRIVATE
+        cxx_std_23
+)
+
+target_compile_features(
+    bsim_test_similarity
     PRIVATE
         cxx_std_23
 )
@@ -188,4 +207,9 @@ add_test(
 add_test(
     NAME analysis_pipeline
     COMMAND bsim_test_analysis_pipeline
+)
+
+add_test(
+    NAME similarity
+    COMMAND bsim_test_similarity
 )
