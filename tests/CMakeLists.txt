@@ -28,6 +28,16 @@ add_executable(
     unit/test_elf_parser.cpp
 )
 
+add_executable(
+    bsim_test_pe_parser
+    unit/test_pe_parser.cpp
+)
+
+add_executable(
+    bsim_test_analysis_pipeline
+    integration/test_analysis_pipeline.cpp
+)
+
 target_link_libraries(
     bsim_test_mapped_file
     PRIVATE
@@ -76,6 +86,22 @@ target_link_libraries(
         bsim_project_warnings
 )
 
+target_link_libraries(
+    bsim_test_pe_parser
+    PRIVATE
+        bsim::bsim
+        bsim_project_options
+        bsim_project_warnings
+)
+
+target_link_libraries(
+    bsim_test_analysis_pipeline
+    PRIVATE
+        bsim::bsim
+        bsim_project_options
+        bsim_project_warnings
+)
+
 target_compile_features(
     bsim_test_mapped_file
     PRIVATE
@@ -108,6 +134,18 @@ target_compile_features(
 
 target_compile_features(
     bsim_test_elf_parser
+    PRIVATE
+        cxx_std_23
+)
+
+target_compile_features(
+    bsim_test_pe_parser
+    PRIVATE
+        cxx_std_23
+)
+
+target_compile_features(
+    bsim_test_analysis_pipeline
     PRIVATE
         cxx_std_23
 )
@@ -140,4 +178,14 @@ add_test(
 add_test(
     NAME elf_parser
     COMMAND bsim_test_elf_parser
+)
+
+add_test(
+    NAME pe_parser
+    COMMAND bsim_test_pe_parser
+)
+
+add_test(
+    NAME analysis_pipeline
+    COMMAND bsim_test_analysis_pipeline
 )
