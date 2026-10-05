@@ -18,6 +18,7 @@ include(Sanitizers)
 include(StaticAnalyzers)
 include(Optimization)
 include(Dependencies)
+find_package(Threads REQUIRED)
 
 bsim_setup_dependencies()
 bsim_enable_static_analyzers()
@@ -61,6 +62,7 @@ add_library(
 
     src/core/binary_image.cpp
     src/core/section.cpp
+    src/core/thread_pool.cpp
 
     src/io/mapped_file.cpp
 
@@ -92,6 +94,7 @@ target_link_libraries(
     bsim
     PUBLIC
         bsim_project_options
+        Threads::Threads
 
     PRIVATE
         bsim_project_warnings

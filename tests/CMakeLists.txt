@@ -48,6 +48,11 @@ add_executable(
     unit/test_ngram.cpp
 )
 
+add_executable(
+    bsim_test_thread_pool
+    unit/test_thread_pool.cpp
+)
+
 target_link_libraries(
     bsim_test_mapped_file
     PRIVATE
@@ -128,6 +133,14 @@ target_link_libraries(
         bsim_project_warnings
 )
 
+target_link_libraries(
+    bsim_test_thread_pool
+    PRIVATE
+        bsim::bsim
+        bsim_project_options
+        bsim_project_warnings
+)
+
 target_compile_features(
     bsim_test_mapped_file
     PRIVATE
@@ -184,6 +197,12 @@ target_compile_features(
 
 target_compile_features(
     bsim_test_ngram
+    PRIVATE
+        cxx_std_23
+)
+
+target_compile_features(
+    bsim_test_thread_pool
     PRIVATE
         cxx_std_23
 )
@@ -236,4 +255,9 @@ add_test(
 add_test(
     NAME ngram
     COMMAND bsim_test_ngram
+)
+
+add_test(
+    NAME thread_pool
+    COMMAND bsim_test_thread_pool
 )
