@@ -43,35 +43,17 @@ void print_banner() {
 
     std::cout << '\n';
 
-    std::cout << cyan    << "                         .-================================-.\n";
-    std::cout << blue    << "                    .-==/====================================\\==-.\n";
-    std::cout << magenta << "                 .-'   /__|__|__|__|__|__|__|__|__|__|__|__\\   '-.\n";
-    std::cout << yellow  << "              .-'    /_|__|__|__|__|__|__|__|__|__|__|__|__|_\\    '-.\n";
-    std::cout << orange  << "            .'      /__|__|__|__|__|__|__|__|__|__|__|__|__|__\\      '.\n";
-    std::cout << cyan    << "           /       /_|__|__|__|__|__|__|__|__|__|__|__|__|__|_\\       \\\n";
-    std::cout << blue    << "          /       /__|__|__|__|__|__|__|__|__|__|__|__|__|__|__\\       \\\n";
-    std::cout << magenta << "         |       /_|__|__|__|__|__|__|__|__|__|__|__|__|__|__|_\\       |\n";
-
-    std::cout << yellow  << "         |      |                                                        |\n";
-    std::cout << cyan    << "         |      |   BBBB    SSSS   IIII   M   M                         |\n";
-    std::cout << blue    << "         |      |   B   B  S        II    MM MM                         |\n";
-    std::cout << magenta << "         |      |   BBBB    SSS     II    M M M                         |\n";
-    std::cout << yellow  << "         |      |   B   B      S    II    M   M                         |\n";
-    std::cout << orange  << "         |      |   BBBB   SSSS    IIII   M   M                         |\n";
-    std::cout << cyan    << "         |      |                                                        |\n";
-
-    std::cout << blue    << "         |       \\__|__|__|__|__|__|__|__|__|__|__|__|__|__|__/       |\n";
-    std::cout << magenta << "          \\       \\_|__|__|__|__|__|__|__|__|__|__|__|__|__|_/       /\n";
-    std::cout << yellow  << "           \\       \\__|__|__|__|__|__|__|__|__|__|__|__|__|__/       /\n";
-    std::cout << orange  << "            '.      \\_|__|__|__|__|__|__|__|__|__|__|__|__|_/      .'\n";
-    std::cout << cyan    << "              '-.    \\__|__|__|__|__|__|__|__|__|__|__|__/    .-'\n";
-    std::cout << blue    << "                 '-.   \\_|__|__|__|__|__|__|__|__|__|_/   .-'\n";
-    std::cout << magenta << "                    '-==\\================================/==-'\n";
-    std::cout << yellow  << "                         '================================'\n";
+    std::cout << yellow  << "                                                                         \n";
+    std::cout << cyan    << "                  BBBB    SSSS   IIII   M   M                         \n";
+    std::cout << blue    << "                  B   B  S        II    MM MM                         \n";
+    std::cout << magenta << "                  BBBB    SSS     II    M M M                         \n";
+    std::cout << yellow  << "                  B   B      S    II    M   M                         \n";
+    std::cout << orange  << "                  BBBB   SSSS    IIII   M   M                         \n";
+    std::cout << cyan    << "                                                                         \n";
 
     std::cout << '\n';
     std::cout << white << "                   BINARY SIMILARITY ENGINE\n" << reset;
-    std::cout << gray << "                         C++23  |  ELF / PE\n" << reset;
+    std::cout << gray << "                      C++23  |  ELF / PE\n" << reset;
     std::cout << '\n';
 
     std::cout << cyan << "Version: " << reset << BSIM_VERSION
