@@ -1,4 +1,5 @@
 #include <bsim/cli/cli.hpp>
+#include <bsim/cli/output_panel.hpp>
 
 #include <bsim/core/batch_analyzer.hpp>
 #include <bsim/core/binary_image.hpp>
@@ -9,7 +10,6 @@
 #include <cstddef>
 #include <filesystem>
 #include <iostream>
-#include <limits>
 #include <string>
 #include <string_view>
 #include <thread>
@@ -25,17 +25,6 @@ namespace {
 #endif
 
 constexpr std::size_t corpus_warning_threshold = 100;
-
-const char* format_name(BinaryFormat format) {
-    switch (format) {
-        case BinaryFormat::pe:
-            return "PE";
-        case BinaryFormat::elf:
-            return "ELF";
-        default:
-            return "Unknown";
-    }
-}
 
 std::size_t default_worker_count() {
     const auto count = std::thread::hardware_concurrency();
@@ -93,25 +82,14 @@ void print_banner() {
 
 void print_help() {
     std::cout << "Usage:\n";
-    std::cout << "  bsim                         Interactive mode\n";
-    std::cout << "  bsim -h                      Show help\n";
-    std::cout << "  bsim --help                  Show help\n";
-    std::cout << "  bsim --version               Show version\n";
-    std::cout << "  bsim analyze <file>          Analyze one binary\n";
-    std::cout << "  bsim compare <file1> <file2> Compare two binaries\n";
-    std::cout << "  bsim corpus <directory>      Analyze and compare a corpus\n";
-}
-
-void print_analysis(const BinaryImage& image) {
-    std::cout << '\n';
-    std::cout << "Path: " << image.path << '\n';
-    std::cout << "Format: " << format_name(image.format) << '\n';
-    std::cout << "File size: " << image.features.file_size << " bytes\n";
-    std::cout << "Entropy: " << image.features.entropy << '\n';
-    std::cout << "Strings: " << image.features.strings.size() << '\n';
-    std::cout << "Sections: " << image.features.section_count << '\n';
-    std::cout << "Executable sections: " << image.features.executable_section_count << '\n';
-    std::cout << "N-grams: " << image.features.ngrams.size() << '\n';
+    std::cout << "  bsim                          Interactive mode\n";
+    std::cout << "  bsim -h                       Show help\n";
+    std::cout << "  bsim --help                   Show help\n";
+    std::cout << "  bsim --version                Show version\n";
+    std::cout << "  bsim metrics                  Explain analysis metrics\n";
+    std::cout << "  bsim analyze <file>           Analyze one binary\n";
+    std::cout << "  bsim compare <file1> <file2>  Compare two binaries\n";
+    std::cout << "  bsim corpus <directory>       Analyze and compare a corpus\n";
 }
 
 int analyze_command(const std::filesystem::path& path) {
@@ -122,7 +100,8 @@ int analyze_command(const std::filesystem::path& path) {
         return 1;
     }
 
-    print_analysis(*result);
+    print_analysis_panel(*result);
+
     return 0;
 }
 
@@ -142,10 +121,7 @@ int compare_command(const std::filesystem::path& lhs_path, const std::filesystem
 
     const auto result = compare_binary_images(*lhs, *rhs);
 
-    std::cout << '\n';
-    std::cout << "Cosine similarity: " << result.cosine_score << '\n';
-    std::cout << "Jaccard similarity: " << result.jaccard_score << '\n';
-    std::cout << "Combined similarity: " << result.combined_score << '\n';
+    print_similarity_panel(result);
 
     return 0;
 }
@@ -210,16 +186,7 @@ int corpus_command(const std::filesystem::path& directory) {
 
     const auto comparisons = compare_batch(images, workers);
 
-    std::cout << '\n';
-
-    for (const auto& comparison : comparisons) {
-        std::cout << images[comparison.lhs_index].path.filename()
-                  << " <-> "
-                  << images[comparison.rhs_index].path.filename()
-                  << ": "
-                  << comparison.similarity.combined_score
-                  << '\n';
-    }
+    print_corpus_panel(comparisons, images);
 
     return 0;
 }
@@ -240,7 +207,8 @@ void interactive_menu() {
         std::cout << "[1] Analyze Binary\n";
         std::cout << "[2] Compare Binaries\n";
         std::cout << "[3] Analyze Corpus\n";
-        std::cout << "[4] Help\n";
+        std::cout << "[4] Explain Metrics\n";
+        std::cout << "[5] Help\n";
         std::cout << "[0] Exit\n";
         std::cout << '\n';
         std::cout << "Select an option: ";
@@ -259,6 +227,8 @@ void interactive_menu() {
             const auto directory = prompt_path("Corpus directory: ");
             corpus_command(directory);
         } else if (choice == "4") {
+            print_metrics_help();
+        } else if (choice == "5") {
             std::cout << '\n';
             print_help();
         } else if (choice == "0") {
@@ -291,6 +261,11 @@ int run(int argc, char* argv[]) {
 
     if (command == "--version") {
         std::cout << "bsim " << BSIM_VERSION << '\n';
+        return 0;
+    }
+
+    if (command == "metrics") {
+        print_metrics_help();
         return 0;
     }
 

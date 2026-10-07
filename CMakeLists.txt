@@ -112,6 +112,7 @@ add_executable(
     bsim_cli
     apps/bsim/main.cpp
     src/cli/cli.cpp
+    src/cli/output_panel.cpp
 )
 
 target_link_libraries(
