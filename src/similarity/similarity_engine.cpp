@@ -45,4 +45,22 @@ double jaccard_similarity(std::span<const NGram> lhs, std::span<const NGram> rhs
     return static_cast<double>(intersection_count) / static_cast<double>(union_count);
 }
 
+SimilarityResult compare_binary_images(const BinaryImage& lhs, const BinaryImage& rhs) {
+    SimilarityResult result{};
+
+    result.cosine_score = cosine_similarity(
+        lhs.features.byte_histogram,
+        rhs.features.byte_histogram
+    );
+
+    result.jaccard_score = jaccard_similarity(
+        lhs.features.ngrams,
+        rhs.features.ngrams
+    );
+
+    result.combined_score = (result.cosine_score + result.jaccard_score) / 2.0;
+
+    return result;
+}
+
 } // namespace bsim

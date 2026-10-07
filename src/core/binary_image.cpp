@@ -6,6 +6,7 @@
 #include <bsim/formats/elf_parser.hpp>
 #include <bsim/formats/pe_parser.hpp>
 #include <bsim/io/mapped_file.hpp>
+#include <bsim/features/ngram.hpp>
 
 namespace bsim {
 
@@ -27,6 +28,7 @@ std::expected<BinaryImage, std::error_code> analyze_binary(const std::filesystem
     image.features.entropy = calculate_entropy(bytes);
     image.features.byte_histogram = calculate_byte_histogram(bytes);
     image.features.strings = extract_strings(bytes);
+    image.features.ngrams = extract_ngrams(bytes);
 
     if (image.format == BinaryFormat::elf) {
         const auto structure = parse_elf(bytes);

@@ -53,6 +53,16 @@ add_executable(
     unit/test_thread_pool.cpp
 )
 
+add_executable(
+    bsim_test_batch_analysis
+    integration/test_batch_analysis.cpp
+)
+
+add_executable(
+    bsim_test_batch_similarity
+    integration/test_batch_similarity.cpp
+)
+
 target_link_libraries(
     bsim_test_mapped_file
     PRIVATE
@@ -141,6 +151,22 @@ target_link_libraries(
         bsim_project_warnings
 )
 
+target_link_libraries(
+    bsim_test_batch_analysis
+    PRIVATE
+        bsim::bsim
+        bsim_project_options
+        bsim_project_warnings
+)
+
+target_link_libraries(
+    bsim_test_batch_similarity
+    PRIVATE
+        bsim::bsim
+        bsim_project_options
+        bsim_project_warnings
+)
+
 target_compile_features(
     bsim_test_mapped_file
     PRIVATE
@@ -203,6 +229,18 @@ target_compile_features(
 
 target_compile_features(
     bsim_test_thread_pool
+    PRIVATE
+        cxx_std_23
+)
+
+target_compile_features(
+    bsim_test_batch_analysis
+    PRIVATE
+        cxx_std_23
+)
+
+target_compile_features(
+    bsim_test_batch_similarity
     PRIVATE
         cxx_std_23
 )
@@ -260,4 +298,14 @@ add_test(
 add_test(
     NAME thread_pool
     COMMAND bsim_test_thread_pool
+)
+
+add_test(
+    NAME batch_analysis
+    COMMAND bsim_test_batch_analysis
+)
+
+add_test(
+    NAME batch_similarity
+    COMMAND bsim_test_batch_similarity
 )

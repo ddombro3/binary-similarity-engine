@@ -48,7 +48,7 @@ void ThreadPool::worker_loop() {
             tasks_.pop();
         }
 
-        task();
+        task(); //unique_ptr unlocks after it leaves scope, execute the task, multiple can run in parallel
     }
 }
 

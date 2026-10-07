@@ -95,6 +95,7 @@ data/corpus/
 data/samples/
 data/malware/
 tests/fixtures/generated/
+data/test-corpus/
 
 # ------------------------------------------------------------
 # Temporary files

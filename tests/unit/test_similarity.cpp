@@ -96,6 +96,68 @@ void test_jaccard_empty_input() {
     assert(similarity == 0.0);
 }
 
+void test_compare_identical_binary_images() {
+    bsim::BinaryImage lhs{};
+    bsim::BinaryImage rhs{};
+
+    lhs.features.byte_histogram[0] = 0.5;
+    lhs.features.byte_histogram[1] = 0.5;
+
+    rhs.features.byte_histogram[0] = 0.5;
+    rhs.features.byte_histogram[1] = 0.5;
+
+    lhs.features.ngrams = {1, 2, 3};
+    rhs.features.ngrams = {1, 2, 3};
+
+    const auto result = bsim::compare_binary_images(lhs, rhs);
+
+    assert(std::abs(result.cosine_score - 1.0) < 0.001);
+    assert(std::abs(result.jaccard_score - 1.0) < 0.001);
+    assert(std::abs(result.combined_score - 1.0) < 0.001);
+}
+
+void test_compare_different_binary_images() {
+    bsim::BinaryImage lhs{};
+    bsim::BinaryImage rhs{};
+
+    lhs.features.byte_histogram[0] = 1.0;
+    rhs.features.byte_histogram[1] = 1.0;
+
+    lhs.features.ngrams = {1, 2};
+    rhs.features.ngrams = {3, 4};
+
+    const auto result = bsim::compare_binary_images(lhs, rhs);
+
+    assert(result.cosine_score == 0.0);
+    assert(result.jaccard_score == 0.0);
+    assert(result.combined_score == 0.0);
+}
+
+void test_compare_partial_binary_images() {
+    bsim::BinaryImage lhs{};
+    bsim::BinaryImage rhs{};
+
+    lhs.features.byte_histogram[0] = 0.5;
+    lhs.features.byte_histogram[1] = 0.5;
+
+    rhs.features.byte_histogram[0] = 0.5;
+    rhs.features.byte_histogram[2] = 0.5;
+
+    lhs.features.ngrams = {1, 2, 3};
+    rhs.features.ngrams = {2, 3, 4};
+
+    const auto result = bsim::compare_binary_images(lhs, rhs);
+
+    assert(result.cosine_score > 0.0);
+    assert(result.cosine_score < 1.0);
+
+    assert(result.jaccard_score > 0.0);
+    assert(result.jaccard_score < 1.0);
+
+    assert(result.combined_score > 0.0);
+    assert(result.combined_score < 1.0);
+}
+
 int main() {
     test_identical_histograms();
     test_completely_different_histograms();
@@ -105,6 +167,9 @@ int main() {
     test_jaccard_no_overlap();
     test_jaccard_partial_overlap();
     test_jaccard_empty_input();
+    test_compare_identical_binary_images();
+    test_compare_different_binary_images();
+    test_compare_partial_binary_images();
 
     std::cout << "Similarity tests passed\n";
 

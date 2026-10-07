@@ -63,6 +63,7 @@ add_library(
     src/core/binary_image.cpp
     src/core/section.cpp
     src/core/thread_pool.cpp
+    src/core/batch_analyzer.cpp
 
     src/io/mapped_file.cpp
 
@@ -77,6 +78,7 @@ add_library(
     src/features/ngram.cpp
 
     src/similarity/similarity_engine.cpp
+    src/similarity/batch_similarity.cpp
     src/similarity/minhash.cpp
 
     src/tamper/tamper_engine.cpp
@@ -101,6 +103,42 @@ target_link_libraries(
 )
 
 bsim_enable_ipo(bsim)
+
+# ------------------------------------------------------------
+# CLI
+# ------------------------------------------------------------
+
+add_executable(
+    bsim_cli
+    apps/bsim/main.cpp
+    src/cli/cli.cpp
+)
+
+target_link_libraries(
+    bsim_cli
+    PRIVATE
+        bsim::bsim
+        bsim_project_options
+        bsim_project_warnings
+)
+
+target_compile_features(
+    bsim_cli
+    PRIVATE
+        cxx_std_23
+)
+
+target_compile_definitions(
+    bsim_cli
+    PRIVATE
+        BSIM_VERSION="${PROJECT_VERSION}"
+)
+
+set_target_properties(
+    bsim_cli
+    PROPERTIES
+        OUTPUT_NAME bsim
+)
 
 # ------------------------------------------------------------
 # Tests
